@@ -1,0 +1,82 @@
+<section class="pt40">
+    <div class="container p0" ng-controller="ArticleController" ng-init="LoadArticleDetail()">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="section-content p24">
+                    <div class="headering">
+                        <h4 class="">{{ArticleDetail.Topic}}</h4>
+                    </div>
+					<div class="category-section">
+						<div class="row">
+							<div class="" style="width:54%;display:inline-block;margin-left:20px;">
+                                <small>{{ArticleDetail.CreatedDate}}| <span ng-if="!ArticleDetail.IsAllCategory"  ng-repeat="Category in ArticleDetail.Categories">{{Category.ArticleEntityEnumName}}<font ng-show="!$last">,</font></span> </small>
+                            </div>
+							<div class="" style="width:40%;display:inline-block;text-align:right;">
+								
+							</div>
+						</div>
+					</div>
+					<hr class="mt24">
+					<div class="post-snippet mb64" style="word-break: break-word;" ng-bind-html ="ArticleDetail.Body | to_trusted">                        
+                    </div>
+                    <hr class="mt40 mb40">
+                </div>
+            </div>
+			
+			
+			<div class="col-xs-4">
+                <div class="section-content p24">
+                    <a href="#" class="button-like btn btn-default btn-sm aFav" id="" style="width:140px;"><i class="fa fa-heart-o"></i> Like This</a>
+                    <a href="#" class="button-like btn btn-like-active btn-sm button-liked aFavCheck" style="display:none;background:rgb(242, 82, 104);color:#fff;border-color:rgb(242, 82, 104);width:140px;" id=""><i class="fa fa-heart"></i> Liked</a>
+                    <p class="h6 bold" style="margin-left:0px;font-size:14px;"><span class="lblModalLikeCount" style="margin-left: 8px; margin-right:12px;"><b style="">@ViewBag.ModalLikeCount </b>  Likes </span>  | <span style="margin-left: 14px;"> <b>@Model["obj"].viewCount </b> Views</span> </p>
+                    <div class="links">
+                        <a href="http://www.facebook.com/sharer.php?u={{ArticleFullUrl}}&title={{ArticleDetail.Topic}}" target="_blank" class="facebook" title="Facebook"></a>
+                        <a href="http://twitter.com/share?url={{ArticleFullUrl}}" target="_blank" class="twitter" title="Twitter"></a>
+                        <a href="https://plus.google.com/share?url={{ArticleFullUrl}}" target="_blank" class="googleplus" title="Google+"></a>
+                        <a href='mailto:?Subject={{ArticleDetail.Topic}}' class="share" style="background:#808080;color:#fff;line-height:36px;"><i class="fa fa-envelope"></i></a>
+                        <a data-toggle="modal" data-target="#divQRCode" class="share btnQR" style="background:#85d100;line-height:36px;color:#fff;"><i class="fa fa-qrcode"></i></a>
+                        <hr class="mt40 mb40">
+                    </div>
+					<div ng-if="ArticleDetail.IsOwnerUser">
+						<h4 class="uppercase bold"><a href="/{{Account.UniqueName}}/article">{{Account.DisplayName}} Articles</a></h4>
+						 <ul class="media__container" style="padding-left:0;" ng-repeat="userArticle in ArticleListArray">                            
+                                <li class="media" ng-repeat="article in userArticle.Contents">
+                                    <div class="media-left col-md-4" style="padding: 0;">
+                                        <img src="{{article.CoverImage.UrlBig}}" class="media-object img-responsive" style="width: 64px;height: 64px;object-fit: cover">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><a href="/article/{{article.Id}}" title="{{article.Topic}}" style="color:#262626">{{article.Topic}}</a></h5>
+                                    </div>
+                                </li>
+                            
+                            <li style="margin-bottom: 40px;display: block;text-transform: uppercase;">
+                                <h5 class="pull-right"><a href="/{{Account.UniqueName}}/article">See All</a></h5>
+                            </li>
+                        </ul>
+                        <hr class="mt40 mb40">
+					</div>
+                    
+					<div ng-if="ArticleDetail.ShopId > 0">
+						<h4 class="title-section"><a href="/{{ShopDetail.UniqueName}}/shoparticle"> {{ShopDetail.Name}}  Articles</a></h4>
+						<ul class="media__container" style="padding: 0;" ng-repeat="shopArticle in ShopArticleListArray">
+                            
+                                <li class="media" ng-repeat="article in shopArticle.Contents">
+                                    <div class="media-left col-md-4" style="padding: 0;">
+                                        <img src="{{article.CoverImage.UrlBig}}" class="media-object img-responsive" style="width: 64px;height: 64px;object-fit: cover">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><a href="/article/{{article.Id}}" title="article.Topic" style="color:#262626">{{article.Topic}}</a></h5>
+                                    </div>
+                                </li>
+                            
+                            <li style="margin-bottom: 40px;display: block;text-transform: uppercase;">
+                                <h5 class="pull-right"><a href="/{{ShopDetail.UniqueName}}/shoparticle">See All</a></h5>
+                            </li>
+                        </ul>
+                        <hr class="mt40 mb40">
+					</div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

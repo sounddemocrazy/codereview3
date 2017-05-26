@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="no-js adg">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>@ViewBag.Title - Alayluya Demo</title> -->
+  
+	
+	
+	
+    <link rel="stylesheet" href="../../Content/Alayluya/bootstrap.css">
+	<link rel="stylesheet" href="../../Content/Alayluya/non-responsive.css">
+	<link rel="stylesheet" href="../../Content/Alayluya/font-awesome.min.css">
+	<link rel="stylesheet" href="../../Content/Alayluya/themify-icons.css">
+	<link rel="stylesheet" href="../../Content/Alayluya/theme.css">
+	
+	
+	  <link rel="stylesheet" href="../../Scripts/Plugin/bootstrap-wysihtml5/wysiwyg-color.css">
+	<link rel="stylesheet" href="../../Scripts/Plugin/bootstrap-wysihtml5/bootstrap-wysihtml5.css">
+	 <!--  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script> -->
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-sanitize.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
+	
+	<script src="../../Scripts/Plugin/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+	<script src="../../Scripts/Plugin/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    
+ 
+</head>
+<body ng-app="LoopinWebApp">
+	
+    <div class="nav-container" ng-controller="LayoutController" data-ng-init="Init()" style="min-height: 55px;">
+        <a id="top"></a>
+        <nav>
+            <div class="nav-bar container" style="border:0;padding-left:0;padding-right:0;">
+                <div class="module left" style="padding:0;margin-left:-10px;">
+                    <a href="/portal" >
+                        <img class="logo logo-dark" alt="" src="../../Content/Alayluya/img/logo/logo-w.png" style="max-height:94%;" />
+                    </a>
+                </div>
+                <div class="module widget-handle mobile-toggle right visible-sm visible-xs">
+                    <i class="ti-menu"></i>
+                </div>
+                <div class="module-group right">
+                    <div class="module left">
+                        <ul class="menu">
+                            <li class="has-dropdown people" ng-repeat="entity in ShopEntityEnum">
+                                <a href="/{{entity.Url}}" >{{entity.ShopEntityName}}</a>
+                                <ul class="mega-menu" style="margin-left:0 !important">
+                                    <li>
+                                        <ul>
+                                            <li ng-repeat="subentity in entity.ShopShubEntityEnum"><a href="/{{entity.ShopEntityName}}/{{subentity.ShopSubEntityName}}" >{{subentity.ShopSubEntityName}}</a></li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <li class="has-dropdown more" ng-controller="ResourceController">
+                                <a href="#">More</a>
+                                <ul>
+                                    <li class="has-dropdown"><a href="/events" >{{EventText}}</a></li>
+                                    <li class="has-dropdown">
+                                        <a href="/article" >{{ArticleText}}</a>
+                                        <ul>
+                                            <li ng-repeat="articleCat in ArticleCategory"><a href="/article/cat/{{articleCat.ArticleEntityEnumName}}" >{{articleCat.ArticleEntityEnumName}}</a></li>
+                                        </ul>
+                                    </li>
+                                <li class="has-dropdown"><a href="/portal" >Shop Banner</a></li>
+                                <li class="has-dropdown"><a href="/forum" >{{ForumText}}</a></li>
+                                    <li><a href="/apps" >{{AppsText}}</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="module widget-handle search-widget-handle left" style="padding:0;" ng-if="!TokenIsValid" ng-controller="ResourceController">
+                        <ul class="menu">
+                            <li><a href="/account/signin">{{SignInText}}</a></li>
+                        </ul>
+                    </div>
+                    <div  class="module widget-handle search-widget-handle left" style="padding:0;" ng-if="!TokenIsValid" ng-controller="ResourceController">
+                        <ul class="menu">
+                            <li><a href="/account/signup">{{SignUpText}}</a></li>
+                        </ul>
+                    </div>
+                    <div class="module widget-handle left" style="padding:0;" ng-if="TokenIsValid" ng-controller="ResourceController">
+						<ul class="menu" >
+							<li class="has-dropdown more">
+								<a href="/account/wall"><img src="{{TokenAccountProfileUrl}}" style="height:24px; width:24px;" /> </a>
+								<ul>
+									<li><a href="{{TokenAccountUniqueName}}/follower">{{FollowerText}}</a></li>
+									<li><a href="{{TokenAccountUniqueName}}/following">{{FollowingText}}</a></li>
+									<li><a href="{{TokenAccountUniqueName}}/friends">{{FriendsText}}</a></li>
+									
+									<!-- <li><a href="{{TokenAccountUniqueName}}/photos">{{Photos}}</a></li> -->
+									<li><a href="{{TokenAccountUniqueName}}/setting">{{SettingsText}}</a></li>
+									<li><a Id="btnLogOut" ng-click="logOut()">{{LogOutText}}</a></li>'
+								</ul>
+							</li>
+						</ul>
+                    </div>
+
+
+                    <div class="module widget-handle language left" style="padding:0;">
+                        <ul class="menu">
+                            <li class="has-dropdown">
+                                <a href="#" id="Layout_LanguageChoosen"></a>
+                                <ul id=""><li ng-repeat="lang in Language"><a id="ChooseLanguage_{{lang.LanguageId}}" ng-click="LayoutLanguageChange($event)" name="LayoutLanguage" data-languageId="{{lang.LanguageId}}">{{lang.Name}}</a></li></ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="module widget-handle search-widget-handle left" title="">
+                        <div class="search mk-search-trigger mk-fullscreen-trigger" id="search-button-listener">
+                            <i class="ti-search" id="search-button" style="color:#fff;opacity:1;"></i>
+                            <span class="title">Search Site</span>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </nav>
+    </div>
+
+    <div class="main-container">
+		<span Id="LocalStorageSpanText" style="margin-left:40%;"></span>
+        <div class="ng-view"></div>
+
+        <footer class="footer-1 bg-dark mt40" ng-controller="ResourceController" style="background:#068ca2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="uppercase bold">Subscribe</h5>
+                        <div class="form-inline">
+                            <input type="text" id="email-subscribe" class="col-md-6" placeholder="Subscriber" style="height:40px;">
+                            <input id="btn-send" class="btn" type="button" value="Subscriber" style="background:#fff;border:none;">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="span app-download">
+                            <a href="/app" target="_blank"><img src="http://www.alayluya.com/asset/theme/alayluya-v2/img/icon/app-store.png"></a>
+                            <a href="/app" target="_blank"><img src="http://www.alayluya.com/asset/theme/alayluya-v2/img/icon/app-google-play.png"></a>
+                            <p class="lead">APP</p>
+                        </div>
+
+                    </div>
+                </div>
+                <!--end of row-->
+                <div class="row mt40">
+                    <div class="col-sm-6" >
+						<span class="sub bold" >© Copyright 2009 -  {{Dates | date:'yyyy'}} Loopin Company Limited. All Rights Reserved.</span>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <ul class="list-inline social-list">
+                            <li><a href="/guide"><span id="Layout_Guide"></span></a></li>
+                            <li><a href="/about"><span id="Layout_AboutUs"></span></a></li>
+                            <li><a href="/partner"><span id="Layout_Partner"></span></a></li>
+                            <li><a href="/contactus"><span id="Layout_ContactUs"></span></a></li>
+                            <li><a href="/terms"><span id="Layout_TermsOfUse"></span></a></li>
+                            <li><a href="/privacy"><span id="Layout_Privacy"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--end of container-->
+            <a class="btn btn-sm fade-half back-to-top inner-link" href="#top"><span id="Layout_BackToTop"></span></a>
+        </footer>
+    </div>
+    <!-- Dialog Confirm -->
+    <div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 id="dlgHeader" class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <p class="lead" id="dlgBody"></p>
+                </div>
+                <div class="modal-footer" style="text-align:center">
+                    <input type="button" id="btnDlgOK" class="btn btn-filled btn-sm mb0" data-dismiss="modal" value="OK">
+                    <input type="button" id="btnDlgYes" class="btn btn-filled btn-sm mb0" data-dismiss="modal" value="Yes">
+                    <input type="button" id="btnDlgNo" class="btn btn-default btn-sm mb0" data-dismiss="modal" value="No">
+                    <input type="button" id="btnDlgConfirm" class="btn btn-filled btn-sm mb0" data-dismiss="modal" value="Confirm">
+                    <input type="button" id="btnDlgCancel" class="btn btn-default btn-sm mb0" data-dismiss="modal" value="Cancel">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../../Scripts/js/jquery-1.10.2.js"></script>
+<script src="../../Scripts/js/jquery.validate.js"></script>
+
+<script src="../../Scripts/Plugin/bootstrap-wysihtml5/wysihtml5-0.3.0.js"> </script>
+<script src="../../Scripts/Plugin/bootstrap-wysihtml5/bootstrap-wysihtml5.js"> </script>
+
+<script src="../../appClientMemoryService.js"></script>
+<script src="../../appConfigurationService.js"></script>
+<script src="../../appAPIConfigurationService.js"></script>
+
+<script src="../../Scripts/Custom/DialogueService.js"></script>
+
+<script src="../../Content/Alayluya/resource/resource.js"></script>
+<script src="../../Content/Alayluya/resource/bootstrap.js"></script>
+
+
+
+
+
+<script src="../../app.js"></script>
+<script src="../../appDirectiveService.js"></script>
+<script src="../../appRouteService.js"></script>
+<script src="../../Scripts/Service/AccountService.js"></script>
+<script src="../../Scripts/Service/AuthService.js"></script>
+<script src="../../Scripts/Service/SharedService.js"></script>
+    
+<script src="../../Scripts/Service/ArticleService.js"></script>
+    <script src="../../Scripts/Service/ShopBannerService.js"></script>
+
+<script src="../../Scripts/Service/LanguageService.js"></script>
+<script src="../../Scripts/Service/ShopService.js"></script>
+<script src="../../Scripts/Service/ImageUploaderService.js"></script>
+<script src="../../Scripts/Service/AdminService.js"></script>
+
+<script src="../../Scripts/Controller/AccountController.js"></script>
+<script src="../../Scripts/Controller/ArticleController.js"></script>
+<script src="../../Scripts/Controller/LayoutController.js"></script>
+<script src="../../Scripts/Controller/ShopBannerController.js"></script>
+
+<script src="../../Scripts/Controller/ResourceController.js"></script>
+<script src="../../Scripts/Controller/ShopController.js"></script>
+<script src="../../Scripts/Controller/ErrorController.js"></script>
+<script src="../../Scripts/Controller/DialogueController.js"></script>
+<script src="../../Scripts/Controller/AdminController.js"></script>
+
+
+</html>
+

@@ -1,0 +1,16 @@
+<div ng-controller="ShopBannerController" id="slides_control" data-ng-init="InitPageLoad()" >
+       <section class="p0 container mt40" style="box-shadow: 0 1px 2px 0 rgba(0,0,0,0.22); height:400px; width:700px">
+         
+       <div>
+                    <carousel interval="myInterval">
+                        <slide ng-repeat="slide in slides" active="slide.active" style="height:400px; width:700px">
+                            <img ng-src="{{slide.BannerImage.UrlOriginalQ}}">
+                           
+                        </slide>
+                    </carousel>
+        </div>
+       </section>
+    <div class="row">
+
+</div>
+    </div>

@@ -1,0 +1,35 @@
+<section class="pt24">
+    <div class="container p0">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="section-content p24" ng-controller="TopShopController" data-ng-init="InitPageLoad()">
+                    <div ng-repeat="publicArticle in topShop">
+                        <div class="media article-item" ng-repeat="article in publicArticle.Contents">
+                            <div class="media-left col-xs-6 col-md-4" style="margin-right:12px; ">
+                                <a href="/article/{{article.Id}}">
+                                    <img class="media-object img-responsive" src="{{article.CoverImage.UrlBig}}" alt="" style="height: 160px;object-fit: cover;width: 100%; ">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <a href="/article/{{article.Id}}"><h5 class="media-heading bold">{{article.Topic}}</h5></a>
+                                <p class="description-article">
+                                    {{article.Summary}}
+                                </p>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div ng-if="ArticleListHasMore" class="row text-center" >
+                        <input ng-click="LoadMoreTopShop(ArticleListCurrentPage+1)" type="button" class="btn btn-primary" value="View more..."/>
+                    </div>
+                </div>
+
+            </div>
+
+          
+        </div>
+    </div>
+</section>
+
+
+//TopArticles
